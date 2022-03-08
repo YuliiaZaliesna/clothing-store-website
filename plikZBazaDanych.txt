@@ -1,0 +1,72 @@
+create database Sklep;
+
+create table Sklep.towar(
+towar_id integer not null auto_increment unique,
+towar_nazwa varchar(70),
+towar_cena double(5,2),
+primary key (towar_id)
+);
+
+INSERT INTO Sklep.towar(
+towar_id
+, towar_nazwa
+, towar_cena
+)
+VALUES 
+(1, 'Bluza damska', 89.99)
+, (2, 'Koszula meska', 59.99)
+, (3, 'Koszula damska', 59.99)
+, (4, 'Spodnie meskie', 110.99)
+, (5, 'Sweter damski', 99.99)
+, (6, 'Spodnica w kwiaty', 49.99)
+;
+
+create table Sklep.klient(
+klient_id integer not null auto_increment,
+klient_password varchar(20) not null,
+klient_login varchar(70) not null,
+klient_name varchar(70) not null,
+klient_adress varchar(70) not null,
+primary key (klient_id)
+);
+
+insert into Sklep.klient(
+klient_id
+, klient_password
+, klient_login
+, klient_name
+, klient_adress
+)
+values
+(1, '1111', 'marta', 'Marta', 'Warszawa')
+, (2, '2222', 'adam', 'Adam', 'Krakow')
+, (3, '3333', 'piotr', 'Piotr', 'Lublin')
+, (4, '4444', 'maria', 'Maria', 'Lodz')
+, (5, '5555', 'kacper', 'Kacper', 'Gdansk')
+;
+
+create table Sklep.orders(
+orders_id integer not null auto_increment unique,
+klient_id integer,
+towar_id integer,
+quanity integer,
+price double(5,2),
+primary key(orders_id)
+);
+
+alter table Sklep.orders add constraint klient_id foreign key (klient_id) references Sklep.klient(klient_id);
+alter table Sklep.orders add constraint towar_id foreign key (towar_id) references Sklep.towar(towar_id);
+
+insert into Sklep.orders(
+orders_id
+, klient_id
+, towar_id
+, quanity
+, price
+)
+values
+(1, 2, 3, 1, 59.99)
+, (2, 1, 1, 2, 179.98)
+, (3, 3, 2, 1, 59.99)
+, (4, 5, 4, 3, 332.97)
+;
